@@ -17,7 +17,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <pthread.h>
 
 #define ARGS_CHECK(argc, num)           \
   {                                     \
