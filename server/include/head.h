@@ -17,8 +17,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
-using namespace std;
-
+#include <pthread.h>
 #define ARGS_CHECK(argc, num)           \
   {                                     \
     if (argc != num)                    \
