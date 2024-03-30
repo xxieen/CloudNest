@@ -1,4 +1,4 @@
-#include "head.h"
+#include "./include/head.h"
 typedef struct tran_s
 {
   int length;     // 火车头
