@@ -17,7 +17,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
-using namespace std;
 
 #define ARGS_CHECK(argc, num)           \
   {                                     \
