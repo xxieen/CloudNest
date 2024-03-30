@@ -41,7 +41,7 @@ int serverSendFile(int netFd, char *fileName)
   // 结束
   close(fileFd);
   close(netFd);
-  unmmap(p);
+  munmap(p, fileSize);
   return 0;
 }
 
@@ -70,7 +70,7 @@ int serverRecvFile(int sockFd)
   // 接收文件内容
   recvn(sockFd, p, fileSize);
   // 结束
-  unmmap(p);
+  munmap(p, fileSize);
   close(fileFd);
   close(sockFd);
   return 0;
