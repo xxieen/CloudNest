@@ -17,7 +17,7 @@ int recvn(int sockFd, void *pstart, int len)
 }
 
 // 发送文件
-int sendFile(int netFd, char *fileName)
+int serverSendFile(int netFd, char *fileName)
 {
   int fileFd = open(fileName, O_RDWR);
   ERROR_CHECK(fileFd, -1, "open");
@@ -46,7 +46,7 @@ int sendFile(int netFd, char *fileName)
 }
 
 // 接收文件
-int recvFile(int sockFd)
+int serverRecvFile(int sockFd)
 {
   // 接收文件名
   char fileName[1000] = {0};
