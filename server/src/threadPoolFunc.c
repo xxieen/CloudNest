@@ -10,13 +10,25 @@ int pThreadPoolInit(threadPool_t *pThreadPool, int workerNum)
     pThreadPool->taskQueue.pRear = NULL;
     pThreadPool->taskQueue.size = 0;
     pthread_mutex_init(&pThreadPool->taskQueue.mutex, NULL);
-    pthread_mutex_init(&pThreadPool->taskQueue.cond, NULL);
+    pthread_cond_init(&pThreadPool->taskQueue.cond, NULL);
 }
 
 // 线程池中线程的工作内容
 void *thread_function(void *arg)
 {
-    put("nothing now\n");
+    threadPool_t *pThreadPool = (threadPool_t *)arg;
+    int netFd;
+    pthread_mutex_lock(&pThreadPool->taskQueue.mutex);
+    // 等待netFd
+    while (1)
+    {
+        pthread_cond_wait(&pThreadPool->taskQueue.cond, &pThreadPool->taskQueue.mutex);
+    }
+    // 获取netFd（出队）
+    netFd = pThreadPool->taskQueue.pFront->netFd;
+    taskDequeue(&pThreadPool->taskQueue);
+    serverTranferFile(netFd);
+    close(netFd);
 }
 
 // 创建线程（工人）

@@ -10,10 +10,11 @@ int tcpInit(int *psockFd, char *ip, char *port)
     // bind(首先要把ip地址和端口号存进一个结构体里面去)
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htoi(atoi(port));
+    addr.sin_port = htons(atoi(port));
     addr.sin_addr.s_addr = inet_addr(ip);
     int ret = bind(*psockFd, (struct sockaddr *)&addr, sizeof(addr));
     ERROR_CHECK(ret, -1, "bind");
     // listen
     listen(*psockFd, 10);
+    return *psockFd;
 }
