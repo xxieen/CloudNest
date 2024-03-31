@@ -1,6 +1,7 @@
 #include "../include/head.h"
 #include "threadPool.h"
 #include "serverTransferFile.h"
+
 // 主线程初始化线程池
 int pThreadPoolInit(threadPool_t *pThreadPool, int workerNum)
 {
@@ -29,7 +30,13 @@ void *thread_function(void *arg)
     netFd = pThreadPool->taskQueue.pFront->netFd;
     taskDequeue(&pThreadPool->taskQueue);
     pthread_mutex_unlock(&pThreadPool->taskQueue.mutex);
-    serverSendFile(netFd, "text.md");
+
+    // if (pThreadPool->taskQueue.pFront->type == SEND_FILE)
+    // {
+    //     serverSendFile(netFd, "tcp.c");
+    // }
+    serverSendFile(netFd, "tcp.c");
+
     close(netFd);
 }
 
