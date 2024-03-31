@@ -31,10 +31,11 @@ void *thread_function(void *arg)
     taskDequeue(&pThreadPool->taskQueue);
     pthread_mutex_unlock(&pThreadPool->taskQueue.mutex);
 
-    if (pThreadPool->taskQueue.pFront->type == SEND_FILE)
-    {
-        serverSendFile(netFd, "tcp.c");
-    }
+    // if (pThreadPool->taskQueue.pFront->type == SEND_FILE)
+    // {
+    //     serverSendFile(netFd, "tcp.c");
+    // }
+    serverSendFile(netFd, "tcp.c");
 
     close(netFd);
 }
