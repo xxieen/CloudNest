@@ -33,9 +33,9 @@ void *thread_function(void *arg)
 
     if (pThreadPool->taskQueue.pFront->type == SEND_FILE)
     {
-        // serverTransferFile(netFd, );
+        serverSendFile(netFd, "tcp.c");
     }
-    serverTranferFile(netFd);
+
     close(netFd);
 }
 
