@@ -12,7 +12,7 @@ CFLAGS := -Wall -Wextra -g
 # 生成可执行文件
 server: $(OBJS)
 	$(CC) $^ -o $@ $(CFLAGS)
-	$(RM) $(OBJS)  
+	$(RM) $(OBJS)
 # 通配符规则：.c -> .o
 %.o: %.c
 	$(CC) -c $< -o $@ $(CFLAGS)
