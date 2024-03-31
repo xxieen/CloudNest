@@ -1,10 +1,17 @@
 #include "../include/head.h"
-
+// 任务类型枚举
+typedef enum
+{
+    SEND_FILE,
+    RECIVE_FILE
+} TaskType;
 // 每一个任务
 typedef struct task_s
 {
+    TaskType type;
     int netFd;
     struct task_s *pNext;
+
 } task_t;
 /* task queue 任务队列，这个结构体里面都是进程池里面的进程要拿的资源，
 而且是共享的，所以把互斥锁和信号量放在这里比较合适 */
