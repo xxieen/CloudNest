@@ -11,6 +11,7 @@ int pThreadPoolInit(threadPool_t *pThreadPool, int workerNum)
     pThreadPool->taskQueue.size = 0;
     pthread_mutex_init(&pThreadPool->taskQueue.mutex, NULL);
     pthread_cond_init(&pThreadPool->taskQueue.cond, NULL);
+    return 0;
 }
 
 // 线程池中线程的工作内容
@@ -27,6 +28,7 @@ void *thread_function(void *arg)
     // 获取netFd（出队）
     netFd = pThreadPool->taskQueue.pFront->netFd;
     taskDequeue(&pThreadPool->taskQueue);
+    pthread_mutex_unlock(&pThreadPool->taskQueue.mutex);
     serverTranferFile(netFd);
     close(netFd);
 }
@@ -38,4 +40,5 @@ int makeWorkers(threadPool_t *pThreadPool, int workerNum)
     {
         pthread_create(&pThreadPool->tid[i], NULL, thread_function, (void *)pThreadPool);
     }
+    return 0;
 }

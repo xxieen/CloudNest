@@ -17,3 +17,11 @@ int taskEnqueue(taskQueue_t *pTaskQueue, int netFd)
     ++pTaskQueue->size;
     return 0;
 }
+int taskDequeue(taskQueue_t *pTaskQueue)
+{
+    task_t *pCur = pTaskQueue->pFront;
+    pTaskQueue->pFront = pCur->pNext;
+    free(pCur);
+    --pTaskQueue->size;
+    return 0;
+}

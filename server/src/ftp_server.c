@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
     // ./ftp_server 10.0.8.3 1234 4
     ARGS_CHECK(argc, 4);
-    int workerNum = argv[3];
+    int workerNum = atoi(argv[3]);
     // 创建并初始化线程池
     threadPool_t threadPool;
     pThreadPoolInit(&threadPool, workerNum);

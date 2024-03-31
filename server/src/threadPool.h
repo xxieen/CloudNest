@@ -30,3 +30,14 @@ typedef struct threadPool_s
 int pThreadPoolInit(threadPool_t *pthreadPool, int workerNum);
 int makeWorkers(threadPool_t *threadPoo, int workerNum);
 void *thread_function(void *arg);
+
+// 队列相关函数
+int taskEnqueue(taskQueue_t *pTaskQueue, int netFd);
+int taskDequeue(taskQueue_t *pTaskQueue);
+
+// tcp相关函数
+int tcpInit(int *psockFd, char *ip, char *port);
+
+// epoll相关函数
+int epollAdd(int fd, int epfd);
+int epollDel(int fd, int epfd);
