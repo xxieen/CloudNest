@@ -39,7 +39,7 @@ int makeWorkers(threadPool_t *threadPoo, int workerNum);
 void *thread_function(void *arg);
 
 // 队列相关函数
-int taskEnqueue(taskQueue_t *pTaskQueue, int netFd);
+int taskEnqueue(taskQueue_t *pTaskQueue, int netFd, int type);
 int taskDequeue(taskQueue_t *pTaskQueue);
 
 // tcp相关函数
