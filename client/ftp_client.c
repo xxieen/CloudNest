@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
   addr.sin_family = AF_INET;
   addr.sin_addr.s_addr = inet_addr(argv[1]);
   addr.sin_port = htons(atoi(argv[2]));
+  int ret = connect(sockFd, (struct sockaddr *)&addr, sizeof(addr));
+  ERROR_CHECK(ret, -1, "connect");
 
   while (1)
   {
@@ -25,8 +27,6 @@ int main(int argc, char *argv[])
       char *command[10];
       split(buf, command);
       // 连接服务器，发送命令
-      int ret = connect(sockFd, (struct sockaddr *)&addr, sizeof(addr));
-      ERROR_CHECK(ret, -1, "connect");
       send(sockFd, command, sizeof(command), 0);
     }
     else
