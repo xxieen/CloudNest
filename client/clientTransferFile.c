@@ -11,6 +11,7 @@ int recvn(int sockFd, void *pstart, int len)
   {
     // 收到len为止
     ret = recv(sockFd, p + total, len - total, 0);
+    ERROR_CHECK(ret, -1, "recv");
     total += ret;
   }
   return 0;
@@ -52,6 +53,7 @@ int clientDownloadFile(int sockFd)
   char fileName[1000] = {0};
   int dataLength = 0;
   recvn(sockFd, &dataLength, sizeof(int));
+  puts("走到这了吗");
   recvn(sockFd, fileName, dataLength);
   // 打开fileName准备写入数据
   int fileFd = open(fileName, O_RDWR | O_CREAT | O_TRUNC, 0666);
