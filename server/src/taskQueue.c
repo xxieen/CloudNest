@@ -1,9 +1,10 @@
 #include "../include/head.h"
 #include "threadPool.h"
-int taskEnqueue(taskQueue_t *pTaskQueue, int netFd)
+int taskEnqueue(taskQueue_t *pTaskQueue, int netFd, int type)
 {
     task_t *pTask = (task_t *)calloc(1, sizeof(task_t));
     pTask->netFd = netFd;
+    pTask->type = type;
     if (pTaskQueue->size == 0)
     {
         pTaskQueue->pFront = pTask;

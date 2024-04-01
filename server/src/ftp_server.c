@@ -1,5 +1,6 @@
 #include "../include/head.h"
 #include "threadPool.h"
+#include "serverTransferFile.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,23 +18,55 @@ int main(int argc, char *argv[])
     tcpInit(&sockFd, argv[1], argv[2]);
 
     // 创建epoll
+
     int epfd = epoll_create(1);
     epollAdd(sockFd, epfd);
-    struct epoll_event readyArr[2];
+    struct epoll_event readyArr[5];
+
+    int netFd = 0;
+
     // 不断的等待epoll
     while (1)
     {
+
         int readyNum = epoll_wait(epfd, readyArr, 2, -1);
-        puts("epoll_wait returns");
+
         for (int i = 0; i < readyNum; ++i)
         {
+            // 是来新客户端了吗
             if (readyArr[i].data.fd == sockFd)
             {
-                int netFd = accept(sockFd, NULL, NULL);
-                // 拿到了netFd就准备放进任务队列里面
+
+                netFd = accept(sockFd, NULL, NULL);
+                // 拿到了netFd就放进监听，注意多个netFd情况
+                epollAdd(netFd, epfd);
+            }
+            else if (0)
+            {
+                printf("如果还有别的需要监听"); // 优雅退出
+            }
+            else
+            { // 别的都不是肯定就是已连接的netFd了
+
+                int type = 0;
+
+                char cmd[100] = {0};
+                recv(readyArr[i].data.fd, cmd, sizeof(cmd), 0);
+                // 解析命令
+                // 函数：找到命令相对应的类型，swich返回一个int  SEND_FILE  or RECIVE_FILE
+                // 用type接住返回的类型
+                // char* cmdArr[] = split(cmd);
+                // if(cmdArr[0] == "download"){
+                //     type = SEND_FILE;
+                // }
+
+                // 传一个task
+
                 pthread_mutex_lock(&threadPool.taskQueue.mutex);
-                taskEnqueue(&threadPool.taskQueue, netFd);
+                taskEnqueue(&threadPool.taskQueue, readyArr[i].data.fd, type);
+
                 pthread_cond_signal(&threadPool.taskQueue.cond);
+
                 pthread_mutex_unlock(&threadPool.taskQueue.mutex);
             }
         }
