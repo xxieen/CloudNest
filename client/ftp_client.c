@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
     {
       // 移除换行符
       buf[strcspn(buf, "\n")] = '\0';
+      // 连接服务器，发送命令
+      send(sockFd, buf, strlen(buf), 0);
       // 处理命令
       split(buf, command);
-      // 连接服务器，发送命令
-      send(sockFd, command, sizeof(command), 0);
       // 处理命令
       if (strcmp(command[0], "download") == 0)
       {
