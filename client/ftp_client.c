@@ -16,18 +16,27 @@ int main(int argc, char *argv[])
   while (1)
   {
     char buf[100] = {0};
+    memset(buf, 0, sizeof(buf));
+    char *command[10] = {NULL};
     printf("please input your command: ");
     fflush(stdout);
     if (fgets(buf, sizeof(buf), stdin) != NULL)
     {
       // 移除换行符
       buf[strcspn(buf, "\n")] = '\0';
-
       // 处理命令
-      char *command[10];
       split(buf, command);
       // 连接服务器，发送命令
       send(sockFd, command, sizeof(command), 0);
+      // 处理命令
+      if (strcmp(command[0], "download") == 0)
+      {
+        clientDownloadFile(sockFd);
+      }
+      if (strcmp(command[0], "upload") == 0)
+      {
+        clientUploadFile(sockFd, command[1]);
+      }
     }
     else
     {

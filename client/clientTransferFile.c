@@ -53,7 +53,6 @@ int clientDownloadFile(int sockFd)
   char fileName[1000] = {0};
   int dataLength = 0;
   recvn(sockFd, &dataLength, sizeof(int));
-  puts("走到这了吗");
   recvn(sockFd, fileName, dataLength);
   // 打开fileName准备写入数据
   int fileFd = open(fileName, O_RDWR | O_CREAT | O_TRUNC, 0666);
