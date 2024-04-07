@@ -43,10 +43,13 @@ void *thread_function(void *arg)
 
         if (type == SEND_FILE)
         {
-            serverSendFile(netFd, "tcp.c");
+            serverSendFile(netFd, "file.txt");
             puts("send_file finish!");
         }
-
+        if (type == RECIVE_FILE)
+        {
+            serverRecvFile(netFd);
+        }
         close(netFd);
     }
 

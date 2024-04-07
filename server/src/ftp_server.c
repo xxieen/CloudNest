@@ -1,7 +1,7 @@
 #include "../include/head.h"
 #include "threadPool.h"
 #include "serverTransferFile.h"
-
+int split(char *buf, char **command);
 int main(int argc, char *argv[])
 {
     // ./ftp_server 10.0.8.3 1234 4
@@ -50,8 +50,21 @@ int main(int argc, char *argv[])
 
                 int type = 0;
 
-                char cmd[100] = {0};
-                recv(readyArr[i].data.fd, cmd, sizeof(cmd), 0);
+                // 接收客户端命令
+                char buf[100] = {0};
+                recv(netFd, buf, sizeof(buf), 0);
+                // 处理命令
+                char *command[10] = {NULL};
+                int ret = split(buf, command);
+                ERROR_CHECK(ret, -1, "spilt");
+                if (strcmp(command[0], "download") == 0)
+                {
+                    type = SEND_FILE;
+                }
+                if (strcmp(command[0], "upload") == 0)
+                {
+                    type = RECIVE_FILE;
+                }
                 // 解析命令
                 // 函数：找到命令相对应的类型，swich返回一个int  SEND_FILE  or RECIVE_FILE
                 // 用type接住返回的类型
