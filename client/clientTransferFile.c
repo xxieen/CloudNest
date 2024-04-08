@@ -41,7 +41,6 @@ int clientUploadFile(int sockFd, char *fileName)
   ERROR_CHECK(ret, -1, "send");
   // 结束
   close(fileFd);
-  close(sockFd);
   munmap(p, fileSize);
   return 0;
 }
@@ -73,6 +72,5 @@ int clientDownloadFile(int sockFd)
   // 结束
   munmap(p, fileSize);
   close(fileFd);
-  close(sockFd);
   return 0;
 }
