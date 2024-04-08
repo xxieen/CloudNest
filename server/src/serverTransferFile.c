@@ -40,7 +40,6 @@ int serverSendFile(int netFd, char *fileName)
   ERROR_CHECK(ret, -1, "send");
   // 结束
   close(fileFd);
-  close(netFd);
   munmap(p, fileSize);
   return 0;
 }
@@ -72,6 +71,5 @@ int serverRecvFile(int sockFd)
   // 结束
   munmap(p, fileSize);
   close(fileFd);
-  close(sockFd);
   return 0;
 }

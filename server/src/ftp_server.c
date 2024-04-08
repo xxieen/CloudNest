@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     while (1)
     {
 
-        int readyNum = epoll_wait(epfd, readyArr, 2, -1);
+        int readyNum = epoll_wait(epfd, readyArr, 5, -1);
 
         for (int i = 0; i < readyNum; ++i)
         {
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
             { // 别的都不是肯定就是已连接的netFd了
 
                 int type = 0;
-
+                puts("hahaha");
                 // 接收客户端命令
                 char buf[100] = {0};
                 recv(netFd, buf, sizeof(buf), 0);
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
                 // 传一个task
 
                 pthread_mutex_lock(&threadPool.taskQueue.mutex);
-                taskEnqueue(&threadPool.taskQueue, readyArr[i].data.fd, type);
+                taskEnqueue(&threadPool.taskQueue, readyArr[i].data.fd, command);
 
                 pthread_cond_signal(&threadPool.taskQueue.cond);
 

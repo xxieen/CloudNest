@@ -8,10 +8,9 @@ typedef enum
 // 每一个任务
 typedef struct task_s
 {
-    TaskType type;
     int netFd;
     struct task_s *pNext;
-
+    char **command;
 } task_t;
 /* task queue 任务队列，这个结构体里面都是进程池里面的进程要拿的资源，
 而且是共享的，所以把互斥锁和信号量放在这里比较合适 */
@@ -39,7 +38,7 @@ int makeWorkers(threadPool_t *threadPoo, int workerNum);
 void *thread_function(void *arg);
 
 // 队列相关函数
-int taskEnqueue(taskQueue_t *pTaskQueue, int netFd, int type);
+int taskEnqueue(taskQueue_t *pTaskQueue, int netFd, char **command);
 int taskDequeue(taskQueue_t *pTaskQueue);
 
 // tcp相关函数

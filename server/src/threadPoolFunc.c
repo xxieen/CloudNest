@@ -35,22 +35,23 @@ void *thread_function(void *arg)
 
         // 获取netFd和type（出队）
         netFd = pThreadPool->taskQueue.pFront->netFd;
-        int type = pThreadPool->taskQueue.pFront->type;
+        char **command = pThreadPool->taskQueue.pFront->command;
         taskDequeue(&pThreadPool->taskQueue);
         pthread_mutex_unlock(&pThreadPool->taskQueue.mutex);
 
         puts("send_file begin!");
-
-        if (type == SEND_FILE)
+        printf("command[0] = %s", command[0]);
+        printf("cc:%d", strcmp(command[0], "download"));
+        if (strcmp(command[0], "download") == 0)
         {
-            serverSendFile(netFd, "file.txt");
+            puts("进来了嘛");
+            serverSendFile(netFd, command[1]);
             puts("send_file finish!");
         }
-        if (type == RECIVE_FILE)
+        if (strcmp(command[0], "upload") == 0)
         {
             serverRecvFile(netFd);
         }
-        close(netFd);
     }
 
     return NULL;
